@@ -107,6 +107,18 @@
     #nav.on-light .nav-menu li a { color: var(--c-dark); }
 
     .nav-right { margin-left: auto; display: flex; align-items: center; gap: 18px; }
+    .lang-toggle { display: flex; align-items: center; gap: 7px; }
+    .lang-btn { background: none; border: none; padding: 3px 2px; font-family: inherit; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; opacity: 0.38; transition: opacity 0.25s, color 0.4s; }
+    .lang-btn.active { opacity: 1; }
+    .lang-btn:hover { opacity: 0.75; }
+    .lang-sep { font-size: 11px; opacity: 0.25; }
+    .mob-lang-toggle .lang-btn { opacity: 0.5; }
+    .mob-lang-toggle .lang-btn.active { opacity: 1; border-color: rgba(255,255,255,0.6) !important; }
+    #nav.on-dark  .lang-btn, #nav.on-dark  .lang-sep { color: #fff; }
+    #nav.on-light .lang-btn, #nav.on-light .lang-sep { color: var(--c-dark); }
+    body[data-dense-nav] .lang-toggle { padding-right: 2px; border-right: 1px solid; }
+    body[data-dense-nav] #nav.on-dark  .lang-toggle { border-color: rgba(255,255,255,0.14); }
+    body[data-dense-nav] #nav.on-light .lang-toggle { border-color: rgba(0,0,0,0.12); }
     .chapter-counter { font-size: 11.5px; font-weight: 500; letter-spacing: 0.08em; font-variant-numeric: tabular-nums; transition: color 0.4s; }
     #nav.on-dark  .chapter-counter { color: rgba(255,255,255,0.28); }
     #nav.on-light .chapter-counter { color: rgba(0,0,0,0.28); }
@@ -688,6 +700,11 @@
     </div>
     <ul class="nav-menu" id="nav-menu"></ul>
     <div class="nav-right">
+      <div class="lang-toggle" id="lang-toggle" role="group" aria-label="Language">
+        <button class="lang-btn active" data-lang="de" onclick="setLanguage('de')" aria-label="Deutsch">DE</button>
+        <span class="lang-sep">/</span>
+        <button class="lang-btn" data-lang="en" onclick="setLanguage('en')" aria-label="English">EN</button>
+      </div>
       <span class="chapter-counter" id="chapter-counter">01 / 08</span>
       <div class="nav-progress-track"><div class="nav-progress-fill" id="progress-fill" style="width:12.5%"></div></div>
     </div>
@@ -710,6 +727,10 @@
   <div id="mobile-menu">
     <button class="mob-close" id="mob-close">✕</button>
     <ul class="mob-items" id="mob-items"></ul>
+    <div class="mob-lang-toggle" style="display:flex;gap:10px;justify-content:center;margin-bottom:16px;">
+      <button class="lang-btn active" data-lang="de" onclick="setLanguage('de')" style="background:none;border:1px solid rgba(255,255,255,0.2);color:#fff;padding:6px 16px;font-size:12px;font-weight:600;letter-spacing:0.04em;cursor:pointer;">DE</button>
+      <button class="lang-btn" data-lang="en" onclick="setLanguage('en')" style="background:none;border:1px solid rgba(255,255,255,0.2);color:#fff;padding:6px 16px;font-size:12px;font-weight:600;letter-spacing:0.04em;cursor:pointer;">EN</button>
+    </div>
     <div class="mob-footer">FRONTEM VENTURES · Strategic Supply Chain Audit</div>
   </div>
 
@@ -721,13 +742,15 @@
      CONTENT CONFIGURATION  — swap per client
      ════════════════════════════════════════════════════════════ */
 
-  const PRESENTATION = {
-    meta: {
-      company: 'Frontem Ventures',
-      title: 'Strategic Supply Chain Audit',
-      confidential: true,
-      contact: { email: 'df@frontemventures.com', phone: '+49 (0)89 37 95 84 11', website: 'frontemventures.com' }
-    },
+  const PRESENTATION_META = {
+    company: 'Frontem Ventures',
+    title: 'Strategic Supply Chain Audit',
+    confidential: true,
+    contact: { email: 'df@frontemventures.com', phone: '+49 (0)89 37 95 84 11', website: 'frontemventures.com' }
+  };
+
+  const PRESENTATION_DE = {
+    meta: PRESENTATION_META,
     chapters: [
       {
         id:'hero', nav:'Einführung', theme:'dark', type:'hero',
@@ -876,6 +899,159 @@
       },
     ]
   };
+
+  const PRESENTATION_EN = {
+    meta: PRESENTATION_META,
+    chapters: [
+      {
+        id:'hero', nav:'Introduction', theme:'dark', type:'hero',
+        eyebrow: 'Frontem Ventures',
+        title: '<span class="hero-brand">Strategic</span> Supply Chain<br><em>Audit</em>',
+        subtitle: 'Potential to Increase Business Performance',
+      },
+      {
+        id:'pressure', nav:'Requirements', theme:'dark-navy', type:'narrative',
+        label: 'Cost Pressure & Complexity',
+        headline: 'Are Your Processes and Structures Ready for<br><em>Future Requirements</em>?',
+        columns: [
+          [
+            'Companies that fail to regularly review and consistently develop their existing structures and ways of working quickly fall behind. Declining competitiveness has a direct impact on profitability and strategic freedom of action.',
+            'The need for continuous optimization is steadily increasing, particularly in the food industry, as the underlying conditions continue to become more demanding:',
+            'Food retailers are continuously raising their requirements. Alongside more aggressive price and terms negotiations, quality aspects such as origin, animal welfare, and sustainability standards are increasingly coming into focus, as are more efficient and transparent processes.',
+            'The growing share of private labels is significantly intensifying price competition and often results in market prices that fall below companies\' own cost base.',
+          ],
+          [
+            'Additional cost pressure arises from contracts with industrial customers who regularly demand price and cost reductions, while inflation adjustments are hardly enforceable. In international and volatile procurement and sales markets, flexibility and the professional handling of increasing complexity are becoming ever more important.',
+            'It is precisely in the supply chain that significant potential lies — not only for reducing costs and inventory, but also for increasing competitiveness through a better, more customer-oriented service offering compared to the competition. Now is the right time to take targeted action and position the supply chain for the future. Proven optimization levers, combined with digital solutions and modern technologies, offer better opportunities to do so than ever before!',
+          ],
+        ],
+        question: 'Where do you see the greatest levers in your company to sustainably improve earnings contribution, operational performance, and return on capital?',
+        quote: {
+          text: '"What was sufficient yesterday is no longer enough today. Standing still means falling behind."',
+          author: 'Jeff Bezos',
+        }
+      },
+      {
+        id:'ansatzpunkte', nav:'Approaches', theme:'white', type:'focus-areas',
+        label: 'Frontem Ventures',
+        headline: 'Approaches to the Sustainable <em>Development</em><br>of Your Supply Chain.',
+        lead: '',
+        items: [
+          'Leveraging digital solutions and modern automation and Industry 4.0 approaches to increase transparency, speed, and controllability',
+          'Professionalizing planning logics, processes, and supporting systems to better align demand, production, and supply',
+          'Systematic management of product variety and complexity to reduce costs, effort, and inefficiencies',
+          'Redesigning and optimizing collaboration and operational handover points with customers and suppliers',
+          'Advancing procurement strategies and effective management of inventories and working capital',
+          'Reviewing and optimizing the production and distribution network in terms of cost, service level, and resilience',
+          'Implementing lean production principles and consistently increasing the technical availability and utilization of equipment',
+          'Building integrated management models with central transparency, control, and KPI systems',
+        ]
+      },
+      {
+        id:'wirkung', nav:'Impact', theme:'dark-navy', type:'flowdiagram',
+        label: 'Assessment of the 10 Action Fields & Derivation of Measures',
+        headline: '<em>Impact</em>.',
+        nodes: ['Better Meet Customer Needs', 'Optimized "End-to-End" Processes', 'Higher Internal Efficiency'],
+        tagGroup: {
+          label: 'Impact On',
+          tags: ['Revenue','Flexibility','Quality','Delivery Reliability','Capacity','Profit','Return on Capital','Complexity','Costs','Inventory','Capital Requirements']
+        }
+      },
+      {
+        id:'handlungsfelder', nav:'Action Fields', theme:'light', type:'focus-areas',
+        label: 'Frontem Strategic Supply Chain Audit',
+        headline: 'Identifying the <em>Relevant Action Fields</em>.',
+        lead: 'Ten central action fields for systematically unlocking performance, profitability, and return-on-capital levers in the food industry supply chain.',
+        items: [
+          'Digitalization & AI',
+          'Planning / S&OP',
+          'Complexity Management',
+          'Organization',
+          'Processes & Tools',
+          'Purchasing & Inventory Management',
+          'Global Footprint',
+          'Lean Production / OEE',
+          'Smart Factory',
+          'KPI System & BI Reporting',
+        ]
+      },
+      {
+        id:'valuechain', nav:'End-to-End', theme:'dark-navy', type:'flowdiagram',
+        label: 'End-to-End Alignment',
+        headline: 'Transparency and <em>Control</em>.',
+        topBand: 'End-to-End Alignment',
+        nodes: ['Raw Materials', 'Supplier', 'Food Manufacturer', 'Industrial Customer / Bulk Consumer / Retail / Consumer'],
+        bottomBand: 'Transparency and Control',
+      },
+      {
+        id:'quickcheck', nav:'Quick Check', theme:'white', type:'process',
+        label: 'Approaches for Rapid Potential Realization',
+        headline: 'Quick Check Possible in <em>Just 5 Days</em>.',
+        steps: [
+          { index:'01', title:'Potential & Action Fields', items:['Data Analyses','Site Visits and Plant Tours','Functional Interviews and Interdisciplinary Workshops'] },
+          { index:'02', title:'Rapid Analysis', items:['Working Hypotheses','Potential','Pilot & Lighthouse','Goal Achievement'] },
+          { index:'03', title:'Direct Operational Implementation', items:['Action Fields','Cornerstones','Roll-out'] },
+        ]
+      },
+      {
+        id:'results', nav:'Project Approach', theme:'white', type:'focus-areas',
+        label: 'Proven Project Approach',
+        headline: 'Increased <em>Efficiency</em> and Cost Reduction.',
+        lead: 'The Frontem Ventures Supply Chain Analysis identifies and evaluates key optimization potential along the entire value chain — with a consistent focus on earnings contribution and sustainable cost reduction.',
+        gridLabel: 'Track Record and Project Results',
+        items: [
+          'Manufacturing productivity: 5 to 35%',
+          'Reduction in throughput times: 25 to 60%',
+          'Reduction in complexity: 5 to 25%',
+          'Increase in delivery reliability: 3 to 30%',
+          'Cash flow optimization: 10 to 30%',
+          'Improvement in forecast accuracy: 15 to 50%',
+          'Increase in OEE: 5 to 20%',
+          'Avoidance of investments: 50 to 100%',
+        ]
+      },
+      {
+        id:'company', nav:'About Us', theme:'dark-navy', type:'company',
+        label: 'Frontem Ventures',
+        headline: '<em>Who We Are</em>.',
+        paragraphs: [
+          'Our dedicated team is distinguished by many years of hands-on experience in leadership positions. Our mission is to develop tailor-made concepts and measures that generate sustainable success and solid growth.',
+          'What does that mean for you in concrete terms? We bring the experience you need from the most important European core industries — such as the industrial production of consumer goods of all kinds and the European retail landscape — to support your company in its next major undertaking.',
+        ],
+        tagGroups: [
+          {
+            label: 'Our Core Industries',
+            tags: ['Textiles','FMCG/Food','Trade & Services','Raw Material Extraction & Processing','Pharmaceutical Industry & Healthcare','Automotive Industry','Transport & Logistics']
+          },
+          {
+            label: 'Our Commitment to Your Success',
+            tags: ['Strategy Development','Business Development','Innovation Management','Marketing','Corporate Development','Process Optimization','Procurement','M&A Process Support','Restructuring','Change Management','Risk Management']
+          },
+        ]
+      },
+      {
+        id:'team', nav:'Our Expert', theme:'light', type:'team',
+        label: 'Our Expert',
+        headline: 'Your Point of Contact<br>for <em>Your Success.</em>',
+        expertiseLabel: 'Areas of Expertise',
+        industriesLabel: 'Industries',
+        members: [
+          { initials:'DF', name:'Daniel Fuchsberger', role:'Partner', expertise:'Organizational development, performance improvement, supply chain optimization, development of location strategies, efficiency improvement in production', industries:'Industrial goods, FMCG, automotive industry, chemicals, construction/building supply industry', email:'df@frontemventures.com', phone:'+49 (0)89 37 95 84 11' },
+        ]
+      },
+      {
+        id:'contact', nav:'Contact', theme:'dark', type:'cta',
+        title: 'Ready to Unlock<br>Your <em>Potential?</em>',
+        downloadLabel: 'Download Presentation (PDF)',
+        contactLabel: 'Get in Touch →',
+        emailLabel: 'Email',
+        phoneLabel: 'Phone',
+        websiteLabel: 'Website',
+      },
+    ]
+  };
+
+  const PRESENTATION = PRESENTATION_DE;
 
   /* ════════════════════════════════════════════════════════════
      SVG MOUNTAIN BACKGROUND GENERATOR
@@ -1193,7 +1369,9 @@
      PARTICLE FIELD
      ════════════════════════════════════════════════════════════ */
 
+  const _particleLoops = {};
   function initParticles(canvasId) {
+    if (_particleLoops[canvasId]) { cancelAnimationFrame(_particleLoops[canvasId].raf); window.removeEventListener('resize', _particleLoops[canvasId].onResize); }
     const canvas = document.getElementById(canvasId);
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -1212,10 +1390,13 @@
         if (d<110) { ctx.beginPath(); ctx.moveTo(particles[i].x,particles[i].y); ctx.lineTo(particles[j].x,particles[j].y); ctx.strokeStyle=`rgba(68,120,200,${(1-d/110)*.14})`; ctx.lineWidth=.5; ctx.stroke(); }
       }
       for (const p of particles) { ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle=`rgba(107,157,232,${p.o})`; ctx.fill(); p.x+=p.vx; p.y+=p.vy; if(p.x<0)p.x=W; if(p.x>W)p.x=0; if(p.y<0)p.y=H; if(p.y>H)p.y=0; }
-      requestAnimationFrame(draw);
+      _particleLoops[canvasId].raf = requestAnimationFrame(draw);
     };
-    resize(); mkParts(); draw();
-    window.addEventListener('resize', () => { resize(); mkParts(); });
+    const onResize = () => { resize(); mkParts(); };
+    resize(); mkParts();
+    _particleLoops[canvasId] = { raf:null, onResize };
+    draw();
+    window.addEventListener('resize', onResize);
   }
 
   /* ════════════════════════════════════════════════════════════
@@ -1258,7 +1439,7 @@
           if (isMobileLayout()) ch._el.scrollIntoView({ behavior: 'smooth', block: 'start' });
           else this.goTo(i);
         };
-        mli.appendChild(ma); ml.appendChild(mli);
+        mli.appendChild(ma); ml.appendChild(mli); ch._mobA=ma;
 
         const dot=document.createElement('div'); dot.className='dot on-dark-dot';
         dot.onclick=()=>this.goTo(i); dots.appendChild(dot); ch._dot=dot;
@@ -1362,6 +1543,36 @@
   }
 
   const engine = new PresentationEngine(PRESENTATION);
+
+  /* ════════════════════════════════════════════════════════════
+     LANGUAGE SWITCHING — re-renders chapter content in place
+     using the same engine instance, DOM nodes, and animations.
+     ════════════════════════════════════════════════════════════ */
+
+  let currentLangConfig = PRESENTATION_DE;
+
+  function setLanguage(lang) {
+    const target = lang === 'en' ? PRESENTATION_EN : PRESENTATION_DE;
+    if (target === currentLangConfig) return;
+    currentLangConfig = target;
+
+    engine.chapters.forEach((ch, i) => {
+      const data = target.chapters[i];
+      const r = Renderers[data.type];
+      ch._el.innerHTML = r ? r(data, target.meta) : '';
+      ch._navA.textContent = data.nav;
+      if (ch._mobA) ch._mobA.textContent = data.nav;
+      // NOTE: intentionally not mutating `ch` itself (it's a direct reference into
+      // PRESENTATION_DE.chapters) — only its DOM-bound fields are updated above,
+      // so the underlying language data objects stay pristine and switchable both ways.
+    });
+
+    document.documentElement.lang = lang;
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+
+    // canvases (hero & CTA particle backgrounds) are recreated by innerHTML — reinit them
+    initParticles('hero-canvas'); initParticles('hero-canvas-2');
+  }
 
   /* ════════════════════════════════════════════════════════════
      PDF EXPORT  — html2canvas + jsPDF (landscape A4)
